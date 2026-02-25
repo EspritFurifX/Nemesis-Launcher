@@ -82,3 +82,30 @@ model Release {
   
   @@map("releases")
 }
+
+// ===================================
+// SUBSCRIBER MODEL (newsletter)
+// ===================================
+
+model Subscriber {
+  id          String    @id @default(cuid())
+  email       String    @unique
+  
+  // Metadata
+  source      String    @default("website") // website, api, etc.
+  ipAddress   String?   @map("ip_address")
+  
+  // Status
+  isVerified  Boolean   @default(false) @map("is_verified")
+  notified    Boolean   @default(false) // true when release notification sent
+  notifiedAt  DateTime? @map("notified_at")
+  
+  // Timestamps
+  createdAt   DateTime  @default(now()) @map("created_at")
+  unsubscribedAt DateTime? @map("unsubscribed_at")
+  
+  @@index([email])
+  @@index([notified])
+  @@map("subscribers")
+}
+

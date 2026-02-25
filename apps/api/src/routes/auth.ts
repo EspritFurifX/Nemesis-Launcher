@@ -1,4 +1,4 @@
-import type { FastifyInstance } from "fastify";
+import type { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
 import { z } from "zod";
 import { ERROR_CODES } from "@nemesis/shared";
 import { prisma } from "@nemesis/database";
@@ -19,6 +19,13 @@ const refreshSchema = z.object({
   refreshToken: z.string().min(1, "Refresh token is required"),
 });
 
+// Rate limit configurations for sensitive endpoints
+const AUTH_RATE_LIMITS = {
+  login: { max: 10, timeWindow: "1 minute" },      // 10 login attempts per minute
+  callback: { max: 5, timeWindow: "1 minute" },   // 5 token exchanges per minute
+  refresh: { max: 20, timeWindow: "1 minute" },   // 20 refreshes per minute
+} as const;
+
 // Helper to create API response
 function apiResponse<T>(data: T, success = true) {
   return { success, data, timestamp: Date.now() };
@@ -38,16 +45,19 @@ export async function authRoutes(server: FastifyInstance) {
   // GET /login - Initiate OAuth flow with PKCE
   // ===================================
   server.get("/login", {
+    config: {
+      rateLimit: AUTH_RATE_LIMITS.login,
+    },
     schema: {
       querystring: z.object({
-        redirect: z.string().optional(),
+        redirect: z.enum(["desktop", "web"]).optional(),
       }),
     },
-  }, async (request, reply) => {
-    const { redirect } = request.query as { redirect?: string };
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
+    const { redirect } = request.query as { redirect?: "desktop" | "web" };
 
     // Generate auth URL with PKCE state
-    const { authUrl, state } = getMicrosoftAuthUrl(redirect || "desktop");
+    const { authUrl, state } = getMicrosoftAuthUrl(redirect ?? "desktop");
 
     return reply.send(apiResponse({
       authUrl,
@@ -58,7 +68,11 @@ export async function authRoutes(server: FastifyInstance) {
   // ===================================
   // POST /callback - Handle OAuth callback (PKCE)
   // ===================================
-  server.post("/callback", async (request, reply) => {
+  server.post("/callback", {
+    config: {
+      rateLimit: AUTH_RATE_LIMITS.callback,
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     try {
       const { code, state } = callbackSchema.parse(request.body);
 
@@ -139,7 +153,11 @@ export async function authRoutes(server: FastifyInstance) {
   // ===================================
   // POST /refresh - Refresh session tokens
   // ===================================
-  server.post("/refresh", async (request, reply) => {
+  server.post("/refresh", {
+    config: {
+      rateLimit: AUTH_RATE_LIMITS.refresh,
+    },
+  }, async (request: FastifyRequest, reply: FastifyReply) => {
     try {
       const { refreshToken } = refreshSchema.parse(request.body);
 
@@ -215,7 +233,7 @@ export async function authRoutes(server: FastifyInstance) {
   // ===================================
   // POST /logout - Invalidate session
   // ===================================
-  server.post("/logout", async (request, reply) => {
+  server.post("/logout", async (request: FastifyRequest, reply: FastifyReply) => {
     try {
       const authHeader = request.headers.authorization;
       if (!authHeader?.startsWith("Bearer ")) {
@@ -239,7 +257,7 @@ export async function authRoutes(server: FastifyInstance) {
   // ===================================
   // GET /session - Get current session info
   // ===================================
-  server.get("/session", async (request, reply) => {
+  server.get("/session", async (request: FastifyRequest, reply: FastifyReply) => {
     try {
       const authHeader = request.headers.authorization;
       if (!authHeader?.startsWith("Bearer ")) {
