@@ -1,0 +1,84 @@
+// This is your Prisma schema file
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  // PostgreSQL par défaut, overridable via DATABASE_URL
+  // Pour SQLite en dev: provider = "sqlite" et DATABASE_URL="file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ===================================
+// USER MODEL
+// ===================================
+
+model User {
+  id                String    @id @default(cuid())
+  minecraftUuid     String    @unique @map("minecraft_uuid")
+  minecraftUsername String    @map("minecraft_username")
+  email             String?
+  
+  // Timestamps
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+  lastLogin         DateTime  @default(now()) @map("last_login")
+  
+  // Relations
+  sessions          Session[]
+  
+  @@map("users")
+}
+
+// ===================================
+// SESSION MODEL
+// ===================================
+
+model Session {
+  id            String   @id @default(cuid())
+  userId        String   @map("user_id")
+  
+  // Tokens (encrypted in app layer)
+  accessToken   String   @map("access_token") @db.Text
+  refreshToken  String   @map("refresh_token") @db.Text
+  
+  // Metadata
+  expiresAt     DateTime @map("expires_at")
+  ipAddress     String?  @map("ip_address")
+  userAgent     String?  @map("user_agent")
+  
+  // Timestamps
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  
+  // Relations
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("sessions")
+}
+
+// ===================================
+// RELEASE MODEL (pour tracker les versions)
+// ===================================
+
+model Release {
+  id            String   @id @default(cuid())
+  version       String   @unique
+  releaseDate   DateTime @map("release_date")
+  releaseNotes  String?  @map("release_notes") @db.Text
+  isLatest      Boolean  @default(false) @map("is_latest")
+  
+  // File info
+  sha512        String
+  fileSize      Int      @map("file_size")
+  
+  // Timestamps
+  createdAt     DateTime @default(now()) @map("created_at")
+  
+  @@map("releases")
+}

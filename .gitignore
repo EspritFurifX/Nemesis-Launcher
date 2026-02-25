@@ -1,122 +1,63 @@
-# ========================================
-# NÉMÉSIS CLIENT - Monorepo .gitignore
-# ========================================
+# Dependencies
+node_modules/
+.pnpm-store/
 
-# =====================================
-# LAUNCHER (Java/Maven)
-# =====================================
+# Build outputs
+dist/
+.next/
+out/
+build/
 
-# Maven
-Launcher/target/
-Launcher/pom.xml.tag
-Launcher/pom.xml.releaseBackup
-Launcher/pom.xml.versionsBackup
-Launcher/pom.xml.next
-Launcher/release.properties
-Launcher/dependency-reduced-pom.xml
-Launcher/buildNumber.properties
-Launcher/.mvn/timing.properties
-Launcher/.mvn/wrapper/maven-wrapper.jar
+# Turbo
+.turbo/
 
-# Java
-Launcher/*.class
-Launcher/*.log
-Launcher/*.jar
-Launcher/*.war
-Launcher/*.ear
-
-# Dossier Minecraft local (généré par le launcher)
-Launcher/.minecraft-launcher/
-.minecraft-launcher/
-
-# Config utilisateur
-Launcher/config/user-preferences.json
-
-# =====================================
-# WEBSITE (Azuriom/Laravel/PHP)
-# =====================================
-
-# Laravel/Azuriom Core
-Website/vendor/
-Website/node_modules/
-Website/.env
-Website/.env.backup
-Website/.phpunit.result.cache
-Website/Homestead.json
-Website/Homestead.yaml
-Website/auth.json
-Website/npm-debug.log
-Website/yarn-error.log
-Website/composer.lock
-Website/package-lock.json
-
-# Storage & Cache
-Website/storage/*.key
-Website/storage/app/*
-!Website/storage/app/.gitignore
-!Website/storage/app/public/
-Website/storage/framework/cache/*
-!Website/storage/framework/cache/.gitignore
-Website/storage/framework/sessions/*
-!Website/storage/framework/sessions/.gitignore
-Website/storage/framework/views/*
-!Website/storage/framework/views/.gitignore
-Website/storage/logs/*
-!Website/storage/logs/.gitignore
-Website/storage/game-keys/
-Website/storage/plugins/
-Website/bootstrap/cache/*
-!Website/bootstrap/cache/.gitignore
-
-# Azuriom Public
-Website/public/storage
-Website/public/hot
-
-# =====================================
-# GLOBAL - Tous les composants
-# =====================================
+# Environment
+.env
+.env.local
+.env.*.local
 
 # IDE
 .idea/
-*.iml
 .vscode/
 *.swp
 *.swo
-*~
-
-# Eclipse
-.classpath
-.project
-.settings/
-
-# macOS
 .DS_Store
-.AppleDouble
-.LSOverride
-
-# Windows
-Thumbs.db
-Desktop.ini
-
-# Linux
-*~
-.directory
 
 # Logs
-*.log
 logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
 
-# Temporaires
-*.tmp
-*.bak
-*.cache
-*.temp
+# Database
+*.db
+*.db-journal
+prisma/migrations/
+
+# Electron
+release/
+*.dmg
+*.exe
+*.AppImage
+*.snap
+*.deb
+*.rpm
+
+# Testing
+coverage/
+.nyc_output/
+
+# Misc
+*.local
+.cache/
+tmp/
+temp/
+
+# Storage (keep structure, ignore files)
+storage/cdn/releases/*
+!storage/cdn/releases/.gitkeep
 
 # Secrets
-.env
-*.key
 *.pem
-
-# Build outputs - Native packages
-Launcher/packages/
-Launcher/releases/
+*.key
+credentials.json

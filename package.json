@@ -1,0 +1,36 @@
+{
+  "name": "nemesis-launcher",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Nemesis Launcher - Minecraft Launcher with Microsoft Authentication",
+  "author": "Nemesis Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "dev:api": "turbo run dev --filter=@nemesis/api",
+    "dev:web": "turbo run dev --filter=@nemesis/web",
+    "dev:desktop": "turbo run dev --filter=@nemesis/desktop",
+    "build": "turbo run build",
+    "build:api": "turbo run build --filter=@nemesis/api",
+    "build:web": "turbo run build --filter=@nemesis/web",
+    "build:desktop": "turbo run build --filter=@nemesis/desktop",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "clean": "turbo run clean && rm -rf node_modules .turbo",
+    "db:generate": "turbo run db:generate --filter=@nemesis/database",
+    "db:push": "turbo run db:push --filter=@nemesis/database",
+    "db:studio": "turbo run db:studio --filter=@nemesis/database",
+    "release:desktop": "pnpm --filter @nemesis/desktop run release",
+    "release:local": "./scripts/release-local.sh"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "turbo": "^2.3.0",
+    "typescript": "^5.5.0"
+  }
+}

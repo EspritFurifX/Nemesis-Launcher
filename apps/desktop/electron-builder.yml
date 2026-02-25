@@ -1,0 +1,66 @@
+appId: fr.nemesisclient.launcher
+productName: Nemesis Launcher
+copyright: Copyright © 2024 Nemesis Team
+
+directories:
+  buildResources: build
+  output: release
+
+files:
+  - dist/**/*
+  - "!**/*.map"
+
+asarUnpack:
+  - resources/**
+
+# Auto-update configuration
+publish:
+  - provider: generic
+    url: http://localhost:4000/cdn/releases
+    useMultipleRangeRequest: false
+
+# macOS
+mac:
+  artifactName: ${productName}-${version}-${arch}.${ext}
+  target:
+    - target: dmg
+      arch:
+        - x64
+        - arm64
+    - target: zip
+      arch:
+        - x64
+        - arm64
+  category: public.app-category.games
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+  hardenedRuntime: true
+  gatekeeperAssess: false
+
+dmg:
+  sign: false
+
+# Windows
+win:
+  artifactName: ${productName}-${version}-${arch}.${ext}
+  target:
+    - target: nsis
+      arch:
+        - x64
+  publisherName: Nemesis Team
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  deleteAppDataOnUninstall: true
+
+# Linux
+linux:
+  artifactName: ${productName}-${version}-${arch}.${ext}
+  target:
+    - target: AppImage
+      arch:
+        - x64
+  category: Game
+  maintainer: nemesis@example.com

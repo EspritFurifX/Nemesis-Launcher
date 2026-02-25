@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: nemesis-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: nemesis
+      POSTGRES_PASSWORD: nemesis_secure_pwd
+      POSTGRES_DB: nemesis_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - nemesis_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nemesis -d nemesis_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  nemesis_pgdata:
