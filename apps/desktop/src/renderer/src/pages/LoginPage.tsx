@@ -18,7 +18,7 @@ export function LoginPage() {
         <div className="w-24 h-24 bg-emerald-500 rounded-2xl flex items-center justify-center text-4xl font-bold mb-6 mx-auto shadow-lg shadow-emerald-500/20">
           N
         </div>
-        <h1 className="text-4xl font-bold mb-2">Nemesis Launcher</h1>
+        <h1 className="text-4xl font-bold mb-2">Némésis Launcher</h1>
         <p className="text-slate-400">Sign in with your Microsoft account to continue</p>
       </div>
 

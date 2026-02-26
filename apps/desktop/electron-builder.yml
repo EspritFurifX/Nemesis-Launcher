@@ -1,6 +1,6 @@
-appId: fr.nemesisclient.launcher
-productName: Nemesis Launcher
-copyright: Copyright © 2024 Nemesis Team
+appId: fr.nemesislauncher.app
+productName: Némésis Launcher
+copyright: Copyright © 2024 Némésis Launcher
 
 directories:
   buildResources: build
@@ -47,7 +47,7 @@ win:
     - target: nsis
       arch:
         - x64
-  publisherName: Nemesis Team
+  publisherName: Némésis Launcher
 
 nsis:
   oneClick: false
@@ -63,4 +63,4 @@ linux:
       arch:
         - x64
   category: Game
-  maintainer: nemesis@example.com
+  maintainer: contact@nemesislauncher.fr

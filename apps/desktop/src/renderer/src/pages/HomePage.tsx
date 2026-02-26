@@ -132,7 +132,7 @@ export function HomePage() {
         {/* Play Card */}
         <div className="bg-gradient-to-r from-emerald-600/20 to-emerald-400/10 rounded-xl p-8 border border-emerald-500/20">
           <h2 className="text-2xl font-bold mb-2">Ready to Play</h2>
-          <p className="text-slate-400 mb-6">Launch Minecraft with your Nemesis profile</p>
+          <p className="text-slate-400 mb-6">Lancez Minecraft avec votre profil Némésis</p>
           <button className="px-8 py-4 bg-emerald-600 hover:bg-emerald-500 rounded-xl font-semibold text-lg transition-colors shadow-lg shadow-emerald-600/20">
             PLAY
           </button>

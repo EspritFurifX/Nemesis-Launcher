@@ -59,7 +59,7 @@ function createWindow(): void {
 
 app.whenReady().then(() => {
   // Security: Set app user model id
-  electronApp.setAppUserModelId("fr.nemesisclient.launcher");
+  electronApp.setAppUserModelId("fr.nemesislauncher.app");
 
   // Dev tools shortcut in development
   app.on("browser-window-created", (_, window) => {

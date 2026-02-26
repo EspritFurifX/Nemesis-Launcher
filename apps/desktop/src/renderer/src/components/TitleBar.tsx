@@ -9,7 +9,7 @@ export function TitleBar() {
         <div className="w-6 h-6 bg-emerald-500 rounded-md flex items-center justify-center text-xs font-bold">
           N
         </div>
-        <span className="text-sm font-medium text-slate-300">Nemesis Launcher</span>
+        <span className="text-sm font-medium text-slate-300">Némésis Launcher</span>
       </div>
       
       <div className="flex items-center gap-1 no-drag">

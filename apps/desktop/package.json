@@ -2,8 +2,8 @@
   "name": "@nemesis/desktop",
   "version": "1.0.0",
   "private": true,
-  "description": "Nemesis Launcher Desktop Application",
-  "author": "Nemesis Team",
+  "description": "Némésis Launcher - Application Desktop",
+  "author": "Némésis Launcher",
   "main": "dist/main/index.js",
   "scripts": {
     "dev": "electron-vite dev",

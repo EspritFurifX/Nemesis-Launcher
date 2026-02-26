@@ -1,0 +1,9 @@
+# Data files (sensitive)
+data/*.json
+
+# Uploaded files (can be large)
+public/downloads/
+
+# Keep directory structure
+!data/.gitkeep
+!public/downloads/.gitkeep

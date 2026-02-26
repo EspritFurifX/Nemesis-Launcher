@@ -1,0 +1,207 @@
+NÉMÉSIS LAUNCHER - LICENCE PROPRIÉTAIRE
+========================================
+
+Copyright © 2024-2026 Némésis Launcher. Tous droits réservés.
+
+AVIS IMPORTANT : CE LOGICIEL EST PROTÉGÉ PAR LE DROIT D'AUTEUR ET LES TRAITÉS 
+INTERNATIONAUX. TOUTE REPRODUCTION OU DISTRIBUTION NON AUTORISÉE DE CE LOGICIEL, 
+OU DE TOUTE PARTIE DE CELUI-CI, PEUT ENTRAÎNER DES SANCTIONS CIVILES ET PÉNALES 
+SÉVÈRES, ET SERA POURSUIVIE DANS TOUTE LA MESURE PERMISE PAR LA LOI.
+
+================================================================================
+                            TERMES ET CONDITIONS
+================================================================================
+
+1. DÉFINITIONS
+
+   1.1 "Logiciel" désigne le programme Némésis Launcher, incluant mais sans s'y 
+       limiter : le code source, le code objet, les fichiers binaires, les 
+       bibliothèques, la documentation, les interfaces utilisateur, les graphiques,
+       les icônes, les sons, et tout autre contenu associé.
+
+   1.2 "Titulaire des droits" désigne le(s) propriétaire(s) légal(aux) de 
+       Némésis Launcher et de tous les droits de propriété intellectuelle associés.
+
+   1.3 "Utilisateur" désigne toute personne physique ou morale qui télécharge, 
+       installe, copie ou utilise le Logiciel.
+
+   1.4 "Usage personnel" désigne l'utilisation du Logiciel par un individu 
+       exclusivement pour ses propres besoins non commerciaux.
+
+2. OCTROI DE LICENCE
+
+   2.1 Sous réserve du respect strict des termes de cette licence, le Titulaire 
+       des droits accorde à l'Utilisateur une licence limitée, non exclusive, 
+       non transférable et révocable pour :
+       
+       a) Télécharger et installer le Logiciel sur un nombre raisonnable 
+          d'appareils personnels ;
+       b) Utiliser le Logiciel uniquement pour un usage personnel et non commercial.
+
+   2.2 Cette licence ne confère AUCUN droit de propriété sur le Logiciel. 
+       L'Utilisateur reconnaît que le Titulaire des droits conserve tous les 
+       droits, titres et intérêts relatifs au Logiciel.
+
+3. RESTRICTIONS - ACTES STRICTEMENT INTERDITS
+
+   L'Utilisateur s'engage à NE PAS :
+
+   3.1 COPIER, REPRODUIRE ou DUPLIQUER le Logiciel ou toute partie de celui-ci, 
+       sauf pour créer une copie de sauvegarde personnelle ;
+
+   3.2 MODIFIER, ADAPTER, TRADUIRE, ou créer des œuvres dérivées basées sur le 
+       Logiciel ;
+
+   3.3 DÉCOMPILER, DÉSASSEMBLER, procéder à de l'ingénierie inverse, ou tenter 
+       de toute autre manière de découvrir le code source du Logiciel ;
+
+   3.4 DISTRIBUER, PUBLIER, TRANSFÉRER, VENDRE, LOUER, PRÊTER, SOUS-LICENCIER 
+       ou mettre à disposition le Logiciel à des tiers, que ce soit gratuitement 
+       ou contre rémunération ;
+
+   3.5 HÉBERGER, TÉLÉCHARGER ou PARTAGER le Logiciel sur tout serveur, site web, 
+       plateforme de partage de fichiers, réseau peer-to-peer, ou tout autre 
+       moyen de distribution ;
+
+   3.6 SUPPRIMER, MODIFIER ou MASQUER les mentions de droits d'auteur, marques 
+       commerciales, ou autres avis de propriété contenus dans le Logiciel ;
+
+   3.7 UTILISER le Logiciel à des fins commerciales, incluant mais sans s'y 
+       limiter : la revente, l'intégration dans des produits commerciaux, ou 
+       l'utilisation dans un environnement professionnel générant des revenus ;
+
+   3.8 CRÉER des versions alternatives, "forks", ou branches du Logiciel ;
+
+   3.9 UTILISER le code source, en tout ou partie, dans d'autres projets, 
+       qu'ils soient open source ou propriétaires ;
+
+   3.10 CONTOURNER ou tenter de contourner toute mesure technique de protection 
+        intégrée au Logiciel.
+
+4. PROPRIÉTÉ INTELLECTUELLE
+
+   4.1 Le Logiciel, y compris l'ensemble de son code source, architecture, 
+       design, documentation et éléments graphiques, est protégé par les lois 
+       sur le droit d'auteur applicables en France, dans l'Union Européenne et 
+       internationalement en vertu de la Convention de Berne et des traités OMPI.
+
+   4.2 Le nom "Némésis Launcher", le logo et tous les éléments de marque associés 
+       sont des marques commerciales ou marques déposées du Titulaire des droits.
+
+   4.3 Toute utilisation non autorisée des marques, noms commerciaux ou éléments 
+       distinctifs du Logiciel est strictement interdite.
+
+5. CODE SOURCE
+
+   5.1 Le code source du Logiciel est STRICTEMENT CONFIDENTIEL et constitue un 
+       secret commercial du Titulaire des droits.
+
+   5.2 Même si le code source est accessible publiquement (par exemple sur une 
+       plateforme d'hébergement de code), cela NE CONFÈRE AUCUN DROIT de 
+       l'utiliser, le copier, le modifier ou le distribuer.
+
+   5.3 La visibilité du code source a pour seul but de permettre la transparence 
+       et les audits de sécurité, et ne constitue en aucun cas une licence 
+       d'utilisation.
+
+6. CONTRIBUTIONS
+
+   6.1 Toute contribution soumise au projet (corrections de bugs, améliorations, 
+       suggestions) devient automatiquement et irrévocablement la propriété 
+       exclusive du Titulaire des droits.
+
+   6.2 Le contributeur renonce à tout droit moral et patrimonial sur ses 
+       contributions au profit du Titulaire des droits.
+
+7. DURÉE ET RÉSILIATION
+
+   7.1 Cette licence est effective jusqu'à sa résiliation.
+
+   7.2 Le Titulaire des droits peut résilier cette licence à tout moment, sans 
+       préavis ni justification.
+
+   7.3 Cette licence sera automatiquement résiliée si l'Utilisateur viole l'une 
+       quelconque de ses dispositions.
+
+   7.4 En cas de résiliation, l'Utilisateur doit immédiatement :
+       a) Cesser toute utilisation du Logiciel ;
+       b) Supprimer toutes les copies du Logiciel en sa possession ;
+       c) Détruire tout matériel dérivé du Logiciel.
+
+8. ABSENCE DE GARANTIE
+
+   8.1 LE LOGICIEL EST FOURNI "TEL QUEL", SANS GARANTIE D'AUCUNE SORTE, 
+       EXPRESSE OU IMPLICITE, Y COMPRIS MAIS SANS S'Y LIMITER, LES GARANTIES 
+       DE QUALITÉ MARCHANDE, D'ADÉQUATION À UN USAGE PARTICULIER ET D'ABSENCE 
+       DE CONTREFAÇON.
+
+   8.2 Le Titulaire des droits ne garantit pas que le Logiciel fonctionnera 
+       sans interruption ou sans erreur.
+
+9. LIMITATION DE RESPONSABILITÉ
+
+   9.1 EN AUCUN CAS LE TITULAIRE DES DROITS NE SERA RESPONSABLE DE TOUT 
+       DOMMAGE DIRECT, INDIRECT, ACCESSOIRE, SPÉCIAL, EXEMPLAIRE OU CONSÉCUTIF 
+       RÉSULTANT DE L'UTILISATION OU DE L'IMPOSSIBILITÉ D'UTILISER LE LOGICIEL.
+
+   9.2 Cette limitation s'applique même si le Titulaire des droits a été informé 
+       de la possibilité de tels dommages.
+
+10. SANCTIONS EN CAS DE VIOLATION
+
+    10.1 Toute violation de cette licence constitue une atteinte aux droits de 
+         propriété intellectuelle du Titulaire des droits.
+
+    10.2 Le Titulaire des droits se réserve le droit de poursuivre toute 
+         violation par tous moyens légaux disponibles, incluant :
+         
+         a) Des poursuites civiles pour dommages et intérêts ;
+         b) Des injonctions et mesures conservatoires ;
+         c) Des poursuites pénales pour contrefaçon (Article L335-2 et suivants 
+            du Code de la Propriété Intellectuelle français) ;
+         d) Des demandes de confiscation et destruction du matériel contrefait.
+
+    10.3 En France, la contrefaçon est punie de 3 ans d'emprisonnement et 
+         300 000 euros d'amende (Article L335-2 CPI).
+
+11. DROIT APPLICABLE ET JURIDICTION
+
+    11.1 Cette licence est régie par le droit français.
+
+    11.2 Tout litige relatif à cette licence sera soumis à la compétence 
+         exclusive des tribunaux français.
+
+    11.3 L'Utilisateur consent expressément à cette juridiction et renonce à 
+         toute objection fondée sur le forum non conveniens.
+
+12. DISPOSITIONS GÉNÉRALES
+
+    12.1 Si une disposition de cette licence est jugée invalide ou inapplicable, 
+         les autres dispositions resteront pleinement en vigueur.
+
+    12.2 L'absence d'exercice par le Titulaire des droits d'un droit prévu par 
+         cette licence ne constitue pas une renonciation à ce droit.
+
+    12.3 Cette licence constitue l'intégralité de l'accord entre les parties 
+         concernant le Logiciel et remplace tous les accords antérieurs.
+
+    12.4 Aucune modification de cette licence n'est valable sauf accord écrit 
+         signé par le Titulaire des droits.
+
+13. CONTACT
+
+    Pour toute demande d'autorisation spéciale ou question concernant cette 
+    licence, veuillez contacter le Titulaire des droits via les canaux officiels 
+    du projet Némésis Launcher.
+
+================================================================================
+
+EN TÉLÉCHARGEANT, INSTALLANT OU UTILISANT LE LOGICIEL, VOUS RECONNAISSEZ AVOIR 
+LU, COMPRIS ET ACCEPTÉ D'ÊTRE LIÉ PAR LES TERMES DE CETTE LICENCE.
+
+SI VOUS N'ACCEPTEZ PAS CES TERMES, VOUS N'ÊTES PAS AUTORISÉ À UTILISER, COPIER 
+OU DISTRIBUER LE LOGICIEL.
+
+================================================================================
+                    © 2024-2026 Némésis Launcher - Tous droits réservés
+================================================================================

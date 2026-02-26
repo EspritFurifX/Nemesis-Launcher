@@ -354,7 +354,7 @@ function getSuccessHtml(): string {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nemesis Launcher - Authentication</title>
+  <title>Némésis Launcher - Authentification</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -382,8 +382,8 @@ function getSuccessHtml(): string {
 <body>
   <div class="card">
     <div class="icon">✅</div>
-    <h1>Authentication Successful</h1>
-    <p>You can close this window and return to Nemesis Launcher.</p>
+    <h1>Authentification réussie</h1>
+    <p>Vous pouvez fermer cette fenêtre et retourner sur Némésis Launcher.</p>
   </div>
   <script>setTimeout(() => window.close(), 3000);</script>
 </body>
@@ -398,7 +398,7 @@ function getErrorHtml(message: string): string {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nemesis Launcher - Error</title>
+  <title>Némésis Launcher - Erreur</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {

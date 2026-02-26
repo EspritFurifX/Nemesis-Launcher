@@ -2,8 +2,8 @@
   "name": "nemesis-launcher",
   "version": "1.0.0",
   "private": true,
-  "description": "Nemesis Launcher - Minecraft Launcher with Microsoft Authentication",
-  "author": "Nemesis Team",
+  "description": "Némésis Launcher - Launcher Minecraft avec authentification Microsoft",
+  "author": "Némésis Launcher",
   "license": "MIT",
   "engines": {
     "node": ">=20.0.0",
