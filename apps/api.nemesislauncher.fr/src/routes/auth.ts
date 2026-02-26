@@ -48,16 +48,12 @@ export async function authRoutes(server: FastifyInstance) {
     config: {
       rateLimit: AUTH_RATE_LIMITS.login,
     },
-    schema: {
-      querystring: z.object({
-        redirect: z.enum(["desktop", "web"]).optional(),
-      }),
-    },
   }, async (request: FastifyRequest, reply: FastifyReply) => {
-    const { redirect } = request.query as { redirect?: "desktop" | "web" };
+    const query = request.query as { redirect?: string };
+    const redirect = query.redirect === "web" ? "web" : "desktop";
 
     // Generate auth URL with PKCE state
-    const { authUrl, state } = getMicrosoftAuthUrl(redirect ?? "desktop");
+    const { authUrl, state } = getMicrosoftAuthUrl(redirect);
 
     return reply.send(apiResponse({
       authUrl,

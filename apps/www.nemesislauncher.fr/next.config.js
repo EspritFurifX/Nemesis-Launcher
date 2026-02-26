@@ -2,9 +2,20 @@
 const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ["@nemesis/shared", "@nemesis/database"],
-  images: {
-    domains: ["cdn.nemesisclient.fr", "localhost"],
+  
+  // Caching agressif en développement - évite recompilation inutile
+  onDemandEntries: {
+    maxInactiveAge: 60 * 10000, // 10 minutes
+    pagesBufferLength: 10,
   },
+  
+  // Optimisations SWC
+  swcMinify: true,
+  
+  images: {
+    domains: ["cdn.nemesislauncher.fr", "localhost"],
+  },
+  
   async headers() {
     return [
       {

@@ -15,7 +15,9 @@ export function SettingsPage() {
   const [systemInfo, setSystemInfo] = useState<SystemInfo | null>(null);
 
   useEffect(() => {
-    window.electron.system.getInfo().then(setSystemInfo);
+    if (window.electron?.system) {
+      window.electron.system.getInfo().then(setSystemInfo).catch(console.error);
+    }
   }, []);
 
   return (

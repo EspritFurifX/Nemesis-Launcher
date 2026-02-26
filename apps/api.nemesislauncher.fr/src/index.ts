@@ -17,7 +17,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const server = Fastify({
   logger: {
-    level: process.env.LOG_LEVEL || "info",
+    level: process.env['LOG_LEVEL'] || "info",
     transport: {
       target: "pino-pretty",
       options: {
@@ -49,12 +49,12 @@ await server.register(rateLimit, {
 });
 
 await server.register(jwt, {
-  secret: process.env.JWT_SECRET || "dev-secret-change-me",
+  secret: process.env['JWT_SECRET'] || "dev-secret-change-me",
 });
 
 // Static files pour le CDN local
-const cdnPath = process.env.CDN_STORAGE_PATH 
-  ? path.resolve(process.env.CDN_STORAGE_PATH)
+const cdnPath = process.env['CDN_STORAGE_PATH']
+  ? path.resolve(process.env['CDN_STORAGE_PATH'])
   : path.resolve(__dirname, "../../../storage/cdn");
 
 await server.register(fastifyStatic, {
@@ -76,8 +76,8 @@ await server.register(cdnRoutes, { prefix: "/api/v1/cdn" });
 // START SERVER
 // ===================================
 
-const port = parseInt(process.env.API_PORT || "4000");
-const host = process.env.API_HOST || "localhost";
+const port = parseInt(process.env['API_PORT'] || "3333");
+const host = process.env['API_HOST'] || "localhost";
 
 try {
   await server.listen({ port, host });

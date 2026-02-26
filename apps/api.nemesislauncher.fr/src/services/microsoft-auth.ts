@@ -11,9 +11,9 @@ import type { MinecraftProfile, MinecraftEntitlement } from "@nemesis/shared";
 // CONFIGURATION
 // ===================================
 
-const CLIENT_ID = process.env.MICROSOFT_CLIENT_ID!;
+const CLIENT_ID = process.env['MICROSOFT_CLIENT_ID']!;
 const REDIRECT_URI_DESKTOP = "http://127.0.0.1:45678/auth/callback";
-const REDIRECT_URI_WEB = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/auth/callback`;
+const REDIRECT_URI_WEB = `${process.env['NEXT_PUBLIC_APP_URL'] || "http://localhost:3000"}/auth/callback`;
 
 // PKCE Store (in production, use Redis with TTL)
 const pkceStore = new Map<string, { verifier: string; expiresAt: number }>();
@@ -151,15 +151,15 @@ export async function exchangeCodeForTokens(
   });
 
   if (!response.ok) {
-    const error = await response.json().catch(() => ({}));
+    const error: any = await response.json().catch(() => ({}));
     console.error("Microsoft token error:", error);
     throw new AuthError(
       ERROR_CODES.AUTH_FAILED,
-      error.error_description || "Failed to exchange authorization code"
+      error['error_description'] || "Failed to exchange authorization code"
     );
   }
 
-  const data = await response.json();
+  const data: any = await response.json();
 
   return {
     accessToken: data.access_token,
@@ -197,12 +197,12 @@ export async function authenticateWithXboxLive(msAccessToken: string): Promise<X
   });
 
   if (!xblResponse.ok) {
-    const error = await xblResponse.json().catch(() => ({}));
+    const error: any = await xblResponse.json().catch(() => ({}));
     console.error("Xbox Live auth error:", error);
     throw new AuthError(ERROR_CODES.AUTH_FAILED, "Failed to authenticate with Xbox Live");
   }
 
-  const xblData = await xblResponse.json();
+  const xblData: any = await xblResponse.json();
   const xblToken = xblData.Token;
   const userHash = xblData.DisplayClaims?.xui?.[0]?.uhs;
 
@@ -228,12 +228,12 @@ export async function authenticateWithXboxLive(msAccessToken: string): Promise<X
   });
 
   if (!xstsResponse.ok) {
-    const error = await xstsResponse.json().catch(() => ({}));
+    const error: any = await xstsResponse.json().catch(() => ({}));
     console.error("XSTS auth error:", error);
 
     // Handle specific Xbox errors
-    if (error.XErr) {
-      switch (error.XErr) {
+    if (error['XErr']) {
+      switch (error['XErr']) {
         case 2148916233:
           throw new AuthError(
             ERROR_CODES.AUTH_FAILED,
@@ -257,10 +257,10 @@ export async function authenticateWithXboxLive(msAccessToken: string): Promise<X
           );
       }
     }
-    throw new AuthError(ERROR_CODES.AUTH_FAILED, `Xbox authentication failed: ${error.XErr || "unknown"}`);
+    throw new AuthError(ERROR_CODES.AUTH_FAILED, `Xbox authentication failed: ${error['XErr'] || "unknown"}`);
   }
 
-  const xstsData = await xstsResponse.json();
+  const xstsData: any = await xstsResponse.json();
 
   return {
     token: xstsData.Token,
@@ -304,7 +304,7 @@ export async function authenticateWithMinecraft(
     );
   }
 
-  const data = await response.json();
+  const data: any = await response.json();
 
   return {
     accessToken: data.access_token,
@@ -339,7 +339,7 @@ export async function checkMinecraftOwnership(minecraftToken: string): Promise<M
     );
   }
 
-  const data = await response.json();
+  const data: any = await response.json();
   const items: Array<{ name: string; source?: string }> = data.items || [];
 
   // Log entitlements for debugging
@@ -354,9 +354,9 @@ export async function checkMinecraftOwnership(minecraftToken: string): Promise<M
   const hasGamePass = items.some((item) => item.source === "GAME_PASS");
 
   // Determine product type for profile purposes
-  let productType: "PRODUCT_MINECRAFT" | "GAME_PASS" | undefined;
+  let productType: "PRODUCT_MINECRAFT" | "GAME_MINECRAFT" | undefined;
   if (ownsMinecraft) {
-    productType = hasGamePass ? "GAME_PASS" : "PRODUCT_MINECRAFT";
+    productType = hasGamePass ? "GAME_MINECRAFT" : "PRODUCT_MINECRAFT";
   }
 
   return {
@@ -389,7 +389,7 @@ export async function getMinecraftProfile(minecraftToken: string): Promise<Minec
     throw new AuthError(ERROR_CODES.AUTH_FAILED, "Failed to get Minecraft profile");
   }
 
-  const data = await response.json();
+  const data: any = await response.json();
 
   return {
     id: data.id,
@@ -432,11 +432,11 @@ export async function refreshMicrosoftToken(refreshToken: string): Promise<{
   });
 
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
+    const errorData: any = await response.json().catch(() => ({}));
     console.error("[Refresh] Token refresh failed:", errorData);
 
     // If refresh token is expired or revoked, user needs to re-authenticate
-    if (errorData.error === "invalid_grant") {
+    if (errorData['error'] === "invalid_grant") {
       throw new AuthError(
         ERROR_CODES.INVALID_TOKEN,
         "Session expired. Please sign in again."
@@ -446,7 +446,7 @@ export async function refreshMicrosoftToken(refreshToken: string): Promise<{
     throw new AuthError(ERROR_CODES.AUTH_FAILED, "Failed to refresh session");
   }
 
-  const data = await response.json();
+  const data: any = await response.json();
 
   return {
     accessToken: data.access_token,

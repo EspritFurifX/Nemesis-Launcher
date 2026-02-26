@@ -6,9 +6,8 @@ generator client {
 }
 
 datasource db {
-  // PostgreSQL par défaut, overridable via DATABASE_URL
-  // Pour SQLite en dev: provider = "sqlite" et DATABASE_URL="file:./dev.db"
-  provider = "postgresql"
+  // SQLite pour le développement
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -42,8 +41,8 @@ model Session {
   userId        String   @map("user_id")
   
   // Tokens (encrypted in app layer)
-  accessToken   String   @map("access_token") @db.Text
-  refreshToken  String   @map("refresh_token") @db.Text
+  accessToken   String   @map("access_token")
+  refreshToken  String   @map("refresh_token")
   
   // Metadata
   expiresAt     DateTime @map("expires_at")
@@ -70,7 +69,7 @@ model Release {
   id            String   @id @default(cuid())
   version       String   @unique
   releaseDate   DateTime @map("release_date")
-  releaseNotes  String?  @map("release_notes") @db.Text
+  releaseNotes  String?  @map("release_notes")
   isLatest      Boolean  @default(false) @map("is_latest")
   
   // File info

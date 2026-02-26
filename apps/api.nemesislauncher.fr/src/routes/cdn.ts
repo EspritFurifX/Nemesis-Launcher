@@ -13,8 +13,8 @@ const checkUpdateSchema = z.object({
 
 export async function cdnRoutes(server: FastifyInstance) {
   
-  const cdnPath = process.env.CDN_STORAGE_PATH 
-    ? path.resolve(process.env.CDN_STORAGE_PATH)
+  const cdnPath = process.env['CDN_STORAGE_PATH']
+    ? path.resolve(process.env['CDN_STORAGE_PATH'])
     : path.resolve(process.cwd(), "../../storage/cdn");
   
   const releasesPath = path.join(cdnPath, "releases");
@@ -90,7 +90,7 @@ export async function cdnRoutes(server: FastifyInstance) {
           version: latest.version,
           releaseDate: latest.releaseDate,
           files: [{
-            url: `http://localhost:${process.env.API_PORT || 4000}/cdn/releases/${latest.path}`,
+            url: `http://localhost:${process.env['API_PORT'] || 3333}/cdn/releases/${latest.path}`,
             sha512: latest.sha512,
             size: latest.files[0]?.size || 0,
             platform: platform as "darwin" | "win32" | "linux",
@@ -228,31 +228,31 @@ function parseLatestYml(content: string): {
     const trimmed = line.trim();
     
     if (trimmed.startsWith("version:")) {
-      result.version = trimmed.split(":")[1]?.trim().replace(/"/g, "") || "";
+      result['version'] = trimmed.split(":")[1]?.trim().replace(/"/g, "") || "";
     } else if (trimmed.startsWith("path:")) {
-      result.path = trimmed.split(":")[1]?.trim().replace(/"/g, "") || "";
+      result['path'] = trimmed.split(":")[1]?.trim().replace(/"/g, "") || "";
     } else if (trimmed.startsWith("sha512:")) {
       if (inFiles) {
-        currentFile.sha512 = trimmed.split(":")[1]?.trim() || "";
+        currentFile['sha512'] = trimmed.split(":")[1]?.trim() || "";
       } else {
-        result.sha512 = trimmed.split(":")[1]?.trim() || "";
+        result['sha512'] = trimmed.split(":")[1]?.trim() || "";
       }
     } else if (trimmed.startsWith("releaseDate:")) {
-      result.releaseDate = trimmed.substring("releaseDate:".length).trim().replace(/"/g, "");
+      result['releaseDate'] = trimmed.substring("releaseDate:".length).trim().replace(/"/g, "");
     } else if (trimmed === "files:") {
       inFiles = true;
     } else if (inFiles && trimmed.startsWith("- url:")) {
       if (Object.keys(currentFile).length > 0) {
-        result.files.push(currentFile);
+        result['files'].push(currentFile);
       }
       currentFile = { url: trimmed.split(":")[1]?.trim().replace(/"/g, "") || "" };
     } else if (inFiles && trimmed.startsWith("size:")) {
-      currentFile.size = parseInt(trimmed.split(":")[1]?.trim() || "0");
+      currentFile['size'] = parseInt(trimmed.split(":")[1]?.trim() || "0");
     }
   }
   
   if (Object.keys(currentFile).length > 0) {
-    result.files.push(currentFile);
+    result['files'].push(currentFile);
   }
   
   return result as any;

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import {
   CheckCircle,
   AlertTriangle,
@@ -162,8 +163,9 @@ const getOverallStatus = (services: Service[]): ServiceStatus => {
 };
 
 export default function StatusPage() {
-  const [lastUpdated, setLastUpdated] = useState(new Date());
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const overallStatus = getOverallStatus(SERVICES);
 
@@ -176,6 +178,8 @@ export default function StatusPage() {
   };
 
   useEffect(() => {
+    setMounted(true);
+    setLastUpdated(new Date());
     const interval = setInterval(() => {
       setLastUpdated(new Date());
     }, 60000); // Refresh every minute
@@ -190,9 +194,13 @@ export default function StatusPage() {
         <div className="max-w-4xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-nemesis-500 rounded-lg flex items-center justify-center">
-                <Activity className="w-5 h-5 text-white" />
-              </div>
+              <Image
+                src="/logo.jpg"
+                alt="Némésis Launcher"
+                width={40}
+                height={40}
+                className="rounded-lg"
+              />
               <div>
                 <h1 className="text-xl font-bold">Status</h1>
                 <p className="text-sm text-dark-400">Némésis Launcher</p>
@@ -231,7 +239,7 @@ export default function StatusPage() {
             </h2>
           </div>
           <p className="text-dark-400">
-            Dernière mise à jour : {lastUpdated.toLocaleString("fr-FR")}
+            Dernière mise à jour : {mounted && lastUpdated ? lastUpdated.toLocaleString("fr-FR") : "Chargement..."}
           </p>
         </div>
       </section>

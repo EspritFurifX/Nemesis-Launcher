@@ -1,143 +1,241 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { useUpdate } from "../hooks/useUpdate";
+import { useServers } from "../hooks/useServers";
+import { ServerCard } from "../components/ServerCard";
+import { Icon, Icons } from "../components/Icon";
 
 export function HomePage() {
   const navigate = useNavigate();
   const { user, minecraftProfile, logout } = useAuth();
   const { updateInfo, progress, status, checkForUpdate, downloadUpdate, installUpdate } = useUpdate();
+  const { getFeaturedServers, loading: serversLoading } = useServers();
+  const [launchingServer, setLaunchingServer] = useState<string | null>(null);
 
   const handleLogout = async () => {
     await logout();
     navigate("/login");
   };
 
+  const handlePlayServer = async (server: any) => {
+    setLaunchingServer(server.name);
+    // TODO: Implement actual game launch
+    console.log("Playing on:", server);
+    setTimeout(() => setLaunchingServer(null), 2000);
+  };
+
+  const featuredServers = getFeaturedServers();
+
   return (
     <div className="h-full flex">
       {/* Sidebar */}
-      <aside className="w-64 bg-slate-800/50 p-4 flex flex-col">
-        <div className="flex items-center gap-3 p-3 bg-slate-700/50 rounded-lg mb-6">
-          {minecraftProfile?.skins?.[0]?.url ? (
-            <img 
-              src={`https://mc-heads.net/avatar/${minecraftProfile.id}/48`}
-              alt="Avatar"
-              className="w-12 h-12 rounded-lg"
-            />
-          ) : (
-            <div className="w-12 h-12 bg-slate-600 rounded-lg" />
-          )}
-          <div className="overflow-hidden">
-            <p className="font-medium truncate">{minecraftProfile?.name || "Player"}</p>
-            <p className="text-xs text-slate-400 truncate">{user?.minecraftUuid}</p>
+      <aside className="w-64 bg-dark-900/40 border-r-4 border-dark-700/50 flex flex-col">
+        {/* Profile Section */}
+        <div className="p-6 border-b-4 border-dark-700/50">
+          <div className="flex items-center gap-3">
+            {minecraftProfile?.skins?.[0]?.url ? (
+              <img
+                src={`https://mc-heads.net/avatar/${minecraftProfile.id}/48`}
+                alt="Avatar"
+                className="w-12 h-12 rounded-lg ring-2 ring-nemesis-400/50 border-2 border-nemesis-500/30"
+              />
+            ) : (
+              <div className="w-12 h-12 bg-gradient-to-br from-nemesis-400 to-nemesis-500 rounded-lg border-2 border-nemesis-500" />
+            )}
+            <div className="overflow-hidden flex-1">
+              <p className="font-semibold text-white truncate">{minecraftProfile?.name || "Player"}</p>
+              <p className="text-xs text-dark-400 truncate">{user?.email}</p>
+            </div>
           </div>
         </div>
 
-        <nav className="flex-1">
-          <button className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-500/10 text-emerald-400 rounded-lg mb-2">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-            </svg>
-            Home
-          </button>
-          <button 
+        {/* Navigation */}
+        <nav className="flex-1 p-4 space-y-2">
+          <NavButton
+            onClick={() => navigate("/home")}
+            active={true}
+            icon="🏠"
+            label="Accueil"
+          />
+          <NavButton
+            onClick={() => navigate("/servers")}
+            icon="🌍"
+            label="Serveurs"
+          />
+          <NavButton
             onClick={() => navigate("/settings")}
-            className="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-700/50 rounded-lg"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-            Settings
-          </button>
+            icon="⚙️"
+            label="Paramètres"
+          />
         </nav>
 
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-red-500/10 rounded-lg"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-          </svg>
-          Sign Out
-        </button>
+        {/* Logout Button */}
+        <div className="p-4 border-t-4 border-dark-700/50">
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-4 py-3 text-minecraft-redstone/80 hover:bg-minecraft-redstone/10 rounded-lg transition-colors border-2 border-dark-700 hover:border-minecraft-redstone/30"
+          >
+            <Icon name={Icons.logout} />
+            Déconnexion
+          </button>
+        </div>
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-8 overflow-auto">
-        <h1 className="text-3xl font-bold mb-8">Welcome, {minecraftProfile?.name}!</h1>
-
-        {/* Update Card */}
-        <div className="bg-slate-800/50 rounded-xl p-6 mb-6">
-          <h2 className="text-lg font-semibold mb-4">Updates</h2>
-          
-          {status === "idle" && (
-            <button
-              onClick={checkForUpdate}
-              className="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors"
-            >
-              Check for Updates
-            </button>
-          )}
-
-          {status === "checking" && (
-            <p className="text-slate-400">Checking for updates...</p>
-          )}
-
-          {status === "available" && updateInfo?.updateAvailable && (
-            <div>
-              <p className="text-emerald-400 mb-3">
-                Version {updateInfo.version} is available!
-              </p>
-              <button
-                onClick={downloadUpdate}
-                className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-lg transition-colors"
-              >
-                Download Update
-              </button>
-            </div>
-          )}
-
-          {status === "downloading" && progress && (
-            <div>
-              <p className="text-slate-400 mb-2">Downloading update...</p>
-              <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
-                <div 
-                  className="h-full bg-emerald-500 transition-all" 
-                  style={{ width: `${progress.percent}%` }}
-                />
-              </div>
-              <p className="text-xs text-slate-500 mt-2">
-                {Math.round(progress.percent)}% - {Math.round(progress.bytesPerSecond / 1024)} KB/s
-              </p>
-            </div>
-          )}
-
-          {status === "downloaded" && (
-            <div>
-              <p className="text-emerald-400 mb-3">Update downloaded!</p>
-              <button
-                onClick={installUpdate}
-                className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-lg transition-colors"
-              >
-                Install & Restart
-              </button>
-            </div>
-          )}
-
-          {status === "not-available" && (
-            <p className="text-slate-400">You're running the latest version.</p>
-          )}
+      <main className="flex-1 overflow-auto bg-gradient-to-br from-dark-950 via-dark-900 to-dark-900">
+        {/* Header Banner */}
+        <div className="bg-gradient-to-r from-nemesis-400/10 to-blue-600/10 border-b-4 border-dark-700/50 px-8 py-8">
+          <div className="max-w-5xl">
+            <h1 className="text-4xl font-bold text-white mb-2">
+              Bienvenue, {minecraftProfile?.name}! 👋
+            </h1>
+            <p className="text-dark-400">
+              Choisissez un serveur et commencez votre aventure maintenant
+            </p>
+          </div>
         </div>
 
-        {/* Play Card */}
-        <div className="bg-gradient-to-r from-emerald-600/20 to-emerald-400/10 rounded-xl p-8 border border-emerald-500/20">
-          <h2 className="text-2xl font-bold mb-2">Ready to Play</h2>
-          <p className="text-slate-400 mb-6">Lancez Minecraft avec votre profil Némésis</p>
-          <button className="px-8 py-4 bg-emerald-600 hover:bg-emerald-500 rounded-xl font-semibold text-lg transition-colors shadow-lg shadow-emerald-600/20">
-            PLAY
-          </button>
+        {/* Content Section */}
+        <div className="max-w-5xl mx-auto p-8 space-y-8">
+          {/* Updates Section */}
+          {updateInfo?.updateAvailable && (
+            <div className="bg-blue-600/10 border-4 border-blue-500/30 rounded-lg p-6 shadow-minecraft">
+              <div className="flex items-start gap-4">
+                <Icon name={Icons.update} size="lg" className="text-blue-400 flex-shrink-0" />
+                <div className="flex-1">
+                  <h3 className="font-semibold text-blue-400 mb-2">
+                    Mise à jour disponible: v{updateInfo.version}
+                  </h3>
+                  <p className="text-sm text-dark-400 mb-4">
+                    Une nouvelle version du launcher est disponible. Mettez à jour pour profiter des dernières fonctionnalités.
+                  </p>
+                  {status === "idle" && (
+                    <button
+                      onClick={checkForUpdate}
+                      className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm font-semibold transition-colors border-2 border-blue-500"
+                    >
+                      Vérifier les mises à jour
+                    </button>
+                  )}
+                  {status === "checking" && (
+                    <div className="flex items-center gap-2 text-dark-400">
+                      <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-blue-400" />
+                      Vérification en cours...
+                    </div>
+                  )}
+                  {status === "available" && (
+                    <button
+                      onClick={downloadUpdate}
+                      className="px-4 py-2 bg-nemesis-400 hover:bg-nemesis-500 rounded-lg text-sm font-semibold transition-colors border-2 border-nemesis-500 text-dark-950"
+                    >
+                      Télécharger
+                    </button>
+                  )}
+                  {status === "downloading" && progress && (
+                    <div className="space-y-2">
+                      <div className="h-2 bg-dark-700 rounded-full overflow-hidden border border-dark-600">
+                        <div
+                          className="h-full bg-nemesis-400 transition-all"
+                          style={{ width: `${progress.percent}%` }}
+                        />
+                      </div>
+                      <p className="text-xs text-dark-500">
+                        {Math.round(progress.percent)}% - {Math.round(progress.bytesPerSecond / 1024)} KB/s
+                      </p>
+                    </div>
+                  )}
+                  {status === "downloaded" && (
+                    <button
+                      onClick={installUpdate}
+                      className="px-4 py-2 bg-nemesis-400 hover:bg-nemesis-500 rounded-lg text-sm font-semibold transition-colors border-2 border-nemesis-500 text-dark-950"
+                    >
+                      Installer & Redémarrer
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Featured Servers */}
+          <div>
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-2xl font-bold text-white">Serveurs en vedette</h2>
+                <p className="text-sm text-dark-400">Les serveurs les plus populaires</p>
+              </div>
+              <button
+                onClick={() => navigate("/servers")}
+                className="text-nemesis-400 hover:text-nemesis-500 text-sm font-semibold flex items-center gap-1 transition-colors"
+              >
+                Voir tous →
+              </button>
+            </div>
+
+            {serversLoading ? (
+              <div className="flex items-center justify-center h-48">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-nemesis-400" />
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {featuredServers.map((server) => (
+                  <ServerCard
+                    key={server.name}
+                    server={server}
+                    onPlay={handlePlayServer}
+                    isLoading={launchingServer === server.name}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Stats Section */}
+          <div className="grid grid-cols-3 gap-6 pt-6 border-t-4 border-dark-700/50">
+            <div className="bg-dark-850 rounded-lg p-4 text-center border-2 border-dark-700 hover:border-nemesis-400/30 transition-colors">
+              <Icon name={Icons.server} size="lg" className="mx-auto mb-2 text-nemesis-400" />
+              <p className="text-dark-400 text-sm mt-2">Serveurs actifs</p>
+              <p className="text-2xl font-bold text-nemesis-400">{featuredServers.length}</p>
+            </div>
+            <div className="bg-dark-850 rounded-lg p-4 text-center border-2 border-dark-700 hover:border-blue-400/30 transition-colors">
+              <Icon name={Icons.users} size="lg" className="mx-auto mb-2 text-blue-400" />
+              <p className="text-dark-400 text-sm mt-2">Joueurs en ligne</p>
+              <p className="text-2xl font-bold text-blue-400">
+                {featuredServers.reduce((acc, s) => acc + (s.players || 0), 0)}
+              </p>
+            </div>
+            <div className="bg-dark-850 rounded-lg p-4 text-center border-2 border-dark-700 hover:border-purple-400/30 transition-colors\">
+              <Icon name={Icons.version} size="lg" className="mx-auto mb-2 text-purple-400" />
+              <p className="text-dark-400 text-sm mt-2">Version du launcher</p>
+              <p className="text-2xl font-bold text-purple-400">1.0.0</p>
+            </div>
+          </div>
         </div>
       </main>
     </div>
+  );
+}
+
+interface NavButtonProps {
+  onClick: () => void;
+  icon: string;
+  label: string;
+  active?: boolean;
+}
+
+function NavButton({ onClick, icon, label, active }: NavButtonProps) {
+  return (
+    <button
+      onClick={onClick}
+      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors border-2 ${
+        active
+          ? "bg-nemesis-400/20 text-nemesis-400 border-nemesis-400/50"
+          : "text-dark-400 hover:bg-dark-700/50 hover:text-dark-300 border-transparent hover:border-dark-600"
+      }`}
+    >
+      <span className="text-lg">{icon}</span>
+      <span className="font-medium">{label}</span>
+    </button>
   );
 }

@@ -9,6 +9,19 @@ interface AuthState {
   error: string | null;
 }
 
+declare global {
+  interface Window {
+    electron?: {
+      auth: {
+        login: () => Promise<{ success: boolean; data?: { user: User; minecraftProfile: MinecraftProfile }; error?: string }>;
+        logout: () => Promise<void>;
+        getSession: () => Promise<{ success: boolean; data?: { user: User; minecraftProfile: MinecraftProfile }; error?: string }>;
+        refresh: () => Promise<void>;
+      };
+    };
+  }
+}
+
 export function useAuth() {
   const [state, setState] = useState<AuthState>({
     isAuthenticated: false,
@@ -25,9 +38,20 @@ export function useAuth() {
 
   const checkSession = useCallback(async () => {
     try {
+      if (!window.electron?.auth) {
+        setState({
+          isAuthenticated: false,
+          isLoading: false,
+          user: null,
+          minecraftProfile: null,
+          error: "Electron API not available",
+        });
+        return;
+      }
+
       const result = await window.electron.auth.getSession();
       
-      if (result.success) {
+      if (result.success && result.data) {
         setState({
           isAuthenticated: true,
           isLoading: false,
@@ -59,9 +83,18 @@ export function useAuth() {
     setState(prev => ({ ...prev, isLoading: true, error: null }));
     
     try {
+      if (!window.electron?.auth) {
+        setState(prev => ({
+          ...prev,
+          isLoading: false,
+          error: "Electron API not available",
+        }));
+        return false;
+      }
+
       const result = await window.electron.auth.login();
       
-      if (result.success) {
+      if (result.success && result.data) {
         setState({
           isAuthenticated: true,
           isLoading: false,
@@ -89,6 +122,8 @@ export function useAuth() {
   }, []);
 
   const logout = useCallback(async () => {
+    if (!window.electron?.auth) return;
+    
     await window.electron.auth.logout();
     setState({
       isAuthenticated: false,

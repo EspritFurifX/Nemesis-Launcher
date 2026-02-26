@@ -96,9 +96,13 @@ export default function AppPage() {
       {/* Sidebar */}
       <aside className="w-64 bg-dark-900 border-r border-dark-700 p-4 flex flex-col">
         <div className="flex items-center gap-3 mb-8 px-2">
-          <div className="w-10 h-10 bg-nemesis-500 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold">N</span>
-          </div>
+          <Image
+            src="/logo.jpg"
+            alt="Némésis Launcher"
+            width={40}
+            height={40}
+            className="rounded-lg"
+          />
           <span className="font-bold text-lg">Némésis</span>
         </div>
 

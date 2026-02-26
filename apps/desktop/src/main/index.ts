@@ -2,17 +2,21 @@ import { app, BrowserWindow, ipcMain, shell } from "electron";
 import { join } from "path";
 import { electronApp, optimizer, is } from "@electron-toolkit/utils";
 import { autoUpdater } from "electron-updater";
-import Store from "electron-store";
+let Store: any;
+
+// Dynamic import for electron-store to handle ESM
+import("electron-store").then((module) => {
+  Store = module.default;
+});
+
 import { IPC_CHANNELS } from "@nemesis/shared";
 import { setupAuthHandlers } from "./handlers/auth";
 import { setupUpdateHandlers } from "./handlers/update";
 import { setupStoreHandlers } from "./handlers/store";
+import { setupGameHandlers } from "./handlers/game";
 
 // Secure store for tokens
-const store = new Store({
-  encryptionKey: process.env.ENCRYPTION_KEY || "dev-encryption-key",
-  name: "nemesis-secure",
-});
+let store: any = null;
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -23,15 +27,12 @@ function createWindow(): void {
     minWidth: 900,
     minHeight: 600,
     show: false,
-    frame: false, // Custom titlebar
-    titleBarStyle: "hidden",
-    trafficLightPosition: { x: 15, y: 15 },
-    autoHideMenuBar: true,
+    icon: join(__dirname, "../../build/icon.png"),
     webPreferences: {
       preload: join(__dirname, "../preload/index.js"),
-      sandbox: true,
-      contextIsolation: true,
       nodeIntegration: false,
+      contextIsolation: true,
+      sandbox: true,
     },
   });
 
@@ -57,9 +58,17 @@ function createWindow(): void {
 // APP LIFECYCLE
 // ===================================
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   // Security: Set app user model id
   electronApp.setAppUserModelId("fr.nemesislauncher.app");
+
+  // Initialize store if not already done
+  if (!store && Store) {
+    store = new Store({
+      encryptionKey: process.env.ENCRYPTION_KEY || "dev-encryption-key",
+      name: "nemesis-secure",
+    });
+  }
 
   // Dev tools shortcut in development
   app.on("browser-window-created", (_, window) => {
@@ -70,6 +79,7 @@ app.whenReady().then(() => {
   setupAuthHandlers(ipcMain, store);
   setupUpdateHandlers(ipcMain, autoUpdater, mainWindow);
   setupStoreHandlers(ipcMain, store);
+  setupGameHandlers(ipcMain, store);
   setupWindowHandlers();
 
   createWindow();

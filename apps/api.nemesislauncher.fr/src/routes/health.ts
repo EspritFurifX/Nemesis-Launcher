@@ -13,9 +13,9 @@ export async function healthRoutes(server: FastifyInstance) {
     const dbStart = Date.now();
     try {
       await prisma.$queryRaw`SELECT 1`;
-      checks.database = { status: "healthy", latency: Date.now() - dbStart };
+      checks['database'] = { status: "healthy", latency: Date.now() - dbStart };
     } catch (error) {
-      checks.database = { status: "unhealthy" };
+      checks['database'] = { status: "unhealthy" };
     }
     
     const allHealthy = Object.values(checks).every(c => c.status === "healthy");

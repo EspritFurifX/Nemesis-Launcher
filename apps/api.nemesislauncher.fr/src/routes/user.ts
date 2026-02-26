@@ -2,6 +2,15 @@ import type { FastifyInstance } from "fastify";
 import { prisma } from "@nemesis/database";
 import { ERROR_CODES } from "@nemesis/shared";
 
+declare global {
+  namespace FastifyInstance {
+    interface FastifyRequest {
+      userId?: string;
+      sessionId?: string;
+    }
+  }
+}
+
 export async function userRoutes(server: FastifyInstance) {
   
   // Middleware pour vérifier l'auth
@@ -19,9 +28,8 @@ export async function userRoutes(server: FastifyInstance) {
       const token = authHeader.substring(7);
       const decoded = server.jwt.verify(token) as { userId: string; sessionId: string };
       
-      // @ts-ignore - Add user info to request
-      request.userId = decoded.userId;
-      request.sessionId = decoded.sessionId;
+      (request as any).userId = decoded.userId;
+      (request as any).sessionId = decoded.sessionId;
       
     } catch (error) {
       return reply.status(401).send({

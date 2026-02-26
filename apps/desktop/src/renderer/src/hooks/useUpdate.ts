@@ -22,7 +22,9 @@ export function useUpdate() {
 
   useEffect(() => {
     // Listen for update progress
-    const unsubProgress = window.electron.update.onProgress((data) => {
+    if (!window.electron?.update) return;
+
+    const unsubProgress = window.electron.update.onProgress((data: any) => {
       setProgress(data as UpdateProgress);
     });
 
@@ -39,6 +41,11 @@ export function useUpdate() {
   }, []);
 
   const checkForUpdate = useCallback(async () => {
+    if (!window.electron?.update) {
+      setError("Update API not available");
+      return null;
+    }
+
     setStatus("checking");
     setError(null);
     
